@@ -31,10 +31,10 @@ To check the containers running
 docker-compose ps
 ```
 
+Access the application using:  
+http://helloworld.com  
+<br/>
 To stop the application  
 ```
 docker-compose down
 ```  
-
-Access the application using:  
-http://helloworld.com
