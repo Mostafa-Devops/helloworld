@@ -34,4 +34,7 @@ docker-compose ps
 To stop the application  
 ```
 docker-compose down
-```
+```  
+
+Access the application using:  
+http://helloworld.com
