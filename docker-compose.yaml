@@ -13,7 +13,7 @@ services:
     container_name: custom_nginx
     ports:
       - "3100:80"
-      - "8443:443"
+      - "8888:443"
     restart: always
     network_mode: "host"
     depends_on:
