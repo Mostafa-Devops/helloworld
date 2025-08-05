@@ -13,8 +13,10 @@ services:
   nginx:
     image: nginx:latest
     deploy: {placement: {constraints: [node.labels.websocket==true]}}
-    ports:
-      - "80:80"
+      - target: 80 # Port inside the container
+        published: 80 # Port exposed on the host
+        protocol: tcp
+        mode: host # Crucial for host-level port binding
     depends_on:
       - web
     volumes:
