@@ -1,0 +1,52 @@
+version: "3.9"
+
+configs:
+  script:
+    file: script.py
+  entrypoint:
+    file: entrypoint.sh
+  nginx_config:
+    file: nginx.conf
+
+services:
+
+  nginx:
+    image: nginx:latest
+    deploy: {placement: {constraints: [node.labels.websocket==true]}}
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+  mysql:
+    image: mysql:8.0
+    deploy: {placement: {constraints: [node.labels.websocket==true]}}
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_pass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  web:
+    deploy: {placement: {constraints: [node.labels.websocket==true]}}
+    image: python:bullseye
+    entrypoint: /entrypoint.sh
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+      MYSQL_DB: testdb
+    configs:
+      - source: entrypoint
+        target: /entrypoint.sh
+      - source: script
+        target: /script.py
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:
