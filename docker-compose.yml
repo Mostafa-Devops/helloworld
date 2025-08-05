@@ -12,7 +12,7 @@ services:
 
   nginx:
     image: nginx:latest
-    deploy: {placement: {constraints: [node.labels.websocket==true]}}
+    deploy: {placement: {constraints: [node.labels.rest-pushes==true]}}
     ports:
       - 1234:80
     depends_on:
@@ -22,7 +22,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    deploy: {placement: {constraints: [node.labels.websocket==true]}}
+    deploy: {placement: {constraints: [node.labels.rest-pushes==true]}}
     environment:
       MYSQL_ROOT_PASSWORD: example_root_pass
       MYSQL_DATABASE: testdb
@@ -32,7 +32,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   web:
-    deploy: {placement: {constraints: [node.labels.websocket==true]}}
+    deploy: {placement: {constraints: [node.labels.rest-pushes==true]}}
     image: python:bullseye
     entrypoint: /entrypoint.sh
     environment:
